@@ -1,0 +1,35 @@
+<div  id="chat" class="">
+  {% if user_from_chat %}
+
+<div class="card-header position-fixed  bg-white " style="width: 814px; margin: -50px 0px 0px -45px ;" >
+    <img src="{{user_from_chat.user_from.profile_picture.url}}" alt="no pic" srcset=""  style="width:40px;height:39px; border-radius:50%;">
+
+    &nbsp;  {{user_from_chat.user_to.first_name}}</div>
+  <div class="card-body " style="height: 500px">
+    {%for chat in from_chat %}
+     <h6 class="card-title">
+        <img src="{{user_from_chat.user_from.profile_picture.url}}" alt="no pic" srcset=""  style="width:25px;height:24px; border-radius:50%;">
+         
+    &nbsp; 
+    &nbsp; {{chat.content}}
+     </h6>
+     <p class="card-text" style="font-size:12px">{{chat.created_at |date:"g:i a"}}</p>
+      {% for c in to_chat%}
+      {% if c.created_at > chat.created_at %}
+        <h6 class="card-title" style="text-align: right">
+            {{c.content}}
+            &nbsp; 
+            &nbsp; 
+            <img src="{{user_to_chat.user_from.profile_picture.url}}" alt="no pic" srcset=""  style="width:25px;height:24px; border-radius:50%;">
+        </h6>
+        <div class="demo_data">
+        <p class="card-text" style="text-align: right; font-size:12px;">{{c.created_at  |date:"g:i a"}}</p>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+</div>

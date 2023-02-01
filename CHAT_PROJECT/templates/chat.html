@@ -1,0 +1,33 @@
+{% extends 'index.html' %} {%block content %}
+{% if user_from_chat %}
+
+    <div class="shadow  mb-1 card text-black bg-white mb-3 overflow-auto p-5">
+        {% include 'all_chat.html' %}
+
+
+    
+    <form method="post" hx-post="{% url 'chat-create' id=user_from_chat.user_to.id  %}" hx-target="#chat">
+        {% csrf_token %} 
+
+        <div class="input-group">
+          <input
+            name="chat"
+            type="text"
+            class="form-control shadow"
+            id="chat"
+            aria-describedby="text"
+            placeholder="type ...."
+          />
+          <span class="input-group-btn" >
+            <a
+              hx-post="{% url 'chat-create' id=user_from_chat.user_to.id  %}"
+              hx-target="#chat"
+              type="submit"
+               >    <i class="fa-solid fa-share" style="font-size:30px"></i>
+            </a>
+          </span>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+{%endblock%}

@@ -1,0 +1,103 @@
+{% block content %}
+
+{% if profile %}
+<div class="shadow" id="profile_page">
+    <div>
+        <img src="{{request.user.profile_picture}}" class="img-fluid img-thumbnail " style="width:30%;height: 100%; border-radius: 30px;" ></img>
+        <h5>{{request.user.first_name | title}}</h5>
+        <p>{{request.user.bio}}</p>
+    </div>
+    <div class="container shadow">
+      <input class="form-control" type="file" > 
+        <br>   
+        <label for="">Name</label> 
+       
+        <input name="name" class="form-control"type="text" value="{{request.user.first_name}}">
+        <br>
+        <label for="">Bio</label> 
+        <textarea name="bio" class= "form-control" type="" value="{{request.user.bio}}">
+        </textarea>
+    <form method="post" hx-post="{% url 'profile'%}" hx-target="#profile_page" hidden>
+        {% csrf_token %} 
+        <div class="form-group">
+          <br>
+        <input class="form-control" type="file" > 
+        <br>   
+        <label for="">Name</label> 
+       
+        <input name="name" class="form-control"type="text" value="{{request.user.first_name}}">
+        <br>
+        <label for="">Bio</label> 
+        <textarea name="bio" class= "form-control" type="" value="{{request.user.bio}}">
+        </textarea>
+        <br>
+        <button class="btn btn-primary" type="submit">Update</button>
+        <br>
+      <br>
+    </div>
+    </form>
+
+   <form  action="" method="post" >
+
+    <input style="  cursor: text;
+    background-color: #fff;
+    border-color: transparent;
+    outline-color: transparent;
+    box-shadow: none;" type="text" value="unal mudiyathu thambi" id="input_id" disabled>
+    <input class="btn btn-default" type="button" value="Edit" id="edit" >
+    <input class="btn btn-default" type="button" value="Save" id="save" hidden>
+   </form>
+
+
+</div>
+</div>
+<script>
+    
+    $(document).ready(function(e){
+      function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+        $.ajax({
+        url: "{% url 'profile'%}",
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify({'payload': 'payload'}),
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": getCookie("csrftoken"),  // don't forget to include the 'getCookie' function
+        },
+        success: (data) => {
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+        });
+        console.log('ready to go')
+    //     $('#edit ').on('click',function(){
+    //         $(this).attr('hidden','hidden')
+    //         $('#save').removeAttr('hidden')
+    //         $('form input[type!="button"]').removeAttr('disabled')
+    //         $('form input[type!="button"]').attr('style','demo')
+    //     $('#save').on('click',function(){
+    //         $(this).attr('hidden','hidden')
+    //         $('#edit').removeAttr('hidden')
+    //         $('form input[type="text"]').attr('disabled','disabled').renameAttr('demo','style')
+    //     })
+    // })
+  })
+</script>
+{% endif %}
+{% endblock %}
